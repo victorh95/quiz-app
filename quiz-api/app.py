@@ -93,4 +93,4 @@ def delete_participations():
 
 
 if __name__ == "__main__":
-    app.run(ssl_context='adhoc', use_reloader=True, debug=True)
+    app.run()

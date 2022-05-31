@@ -28,9 +28,12 @@ def add_question(new_question):
 def delete_question(position):
     db = Database()
     db.connection()
+    id_question = str(db.select_query(
+        "select id from Question where position=" + position)[0]['id'])
     db.exec_query("delete from Question where position=" + position)
     db.exec_query(
         "update Question set position=position-1 where position>=" + position)
+    db.exec_query("delete from Answer where idQuestion=" + id_question)
     db.disconnection()
 
 
