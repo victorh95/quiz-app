@@ -11,7 +11,7 @@ export default {
 
 <template>
     <div class="center">
-        <img v-if="question.image" :src="question.image" width="400" />
+        <img v-if="question.image" :src="question.image" height="300" />
         <h2>{{ question.title }}</h2>
         <p>{{ question.text }}</p>
         <div class="fd-row mb-3">
@@ -34,9 +34,5 @@ export default {
 .fd-row {
     display: flex;
     flex-direction: row;
-}
-
-.btn-custom {
-    width: 200px;
 }
 </style>

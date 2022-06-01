@@ -32,5 +32,12 @@ export default {
   },
   getQuestion(position) {
     return this.call("get", "questions/" + position)
+  },
+  postParticipation(playerName, answers){
+    const data = {
+      "playerName": playerName,
+      "answers": answers, 
+    }
+    return this.call("post", "participations", data)
   }
 };

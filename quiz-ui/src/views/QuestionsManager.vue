@@ -1,6 +1,7 @@
 <script>
 import QuestionPage from "@/views/QuestionPage.vue";
 import quizApiService from "@/services/quizApiService";
+import participationStorageService from "@/services/participationStorageService";
 
 export default {
     data() {
@@ -16,7 +17,9 @@ export default {
             answers: [],
         };
     },
-    created() {
+    async created() {
+        const res = await quizApiService.getQuizInfo();
+        this.totalNumberOfQuestion = res.data.size
         this.loadQuestionByPosition();
     },
     components: {
@@ -24,24 +27,26 @@ export default {
     },
     methods: {
         async loadQuestionByPosition() {
-            const res1 = await quizApiService.getQuestion(this.currentQuestionPosition);
-            this.currentQuestion.image = res1.data.image;
-            this.currentQuestion.title = res1.data.title;
-            this.currentQuestion.text = res1.data.text;
-            this.currentQuestion.possibleAnswers = res1.data.possibleAnswers;
-            const res2 = await quizApiService.getQuizInfo();
-            this.totalNumberOfQuestion = res2.data.size
+            const res = await quizApiService.getQuestion(this.currentQuestionPosition);
+            this.currentQuestion.image = res.data.image;
+            this.currentQuestion.title = res.data.title;
+            this.currentQuestion.text = res.data.text;
+            this.currentQuestion.possibleAnswers = res.data.possibleAnswers;
         },
         async answerClickedHandler(selectedAnswerIndex) {
-            this.answers.push(selectedAnswerIndex)
-            this.currentQuestionPosition += 1;
+            const selectedAnswerPosition = selectedAnswerIndex + 1
+            this.answers.push(selectedAnswerPosition)
             if (this.currentQuestionPosition === this.totalNumberOfQuestion) {
                 this.endQuiz();
             } else {
+                this.currentQuestionPosition += 1;
                 this.loadQuestionByPosition();
-            }
+            }            
         },
         async endQuiz() {
+            const playerName = participationStorageService.getPlayerName();
+            const res = await quizApiService.postParticipation(playerName, this.answers)
+            participationStorageService.saveParticipationScore(res.data.score);
             this.$router.push('/score');
         }
     }

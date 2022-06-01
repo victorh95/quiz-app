@@ -25,7 +25,37 @@ import { RouterLink, RouterView } from 'vue-router'
 </template>
 
 <style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
 .navbar-custom {
   height: 60px;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
+}
+
+.btn-custom {
+  width: 200px;
+}
+
+.width-300px {
+  width: 300px;
+}
+
+.fd-column {
+  display: flex;
+  flex-direction: column;
 }
 </style>

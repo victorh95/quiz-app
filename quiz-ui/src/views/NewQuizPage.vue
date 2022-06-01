@@ -10,6 +10,9 @@ export default {
   },
   methods: {
     launchNewQuiz(){
+      if(this.username == ""){
+        this.username = "Anonyme"
+      }
       participationStorageService.savePlayerName(this.username);
       this.$router.push('/questions');
     },
@@ -30,15 +33,4 @@ export default {
 </template>
 
 <style>
-.center-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 60px);
-}
-
-.width-300px {
-  width: 300px;
-}
 </style>
